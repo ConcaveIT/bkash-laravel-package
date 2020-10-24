@@ -1,0 +1,19 @@
+{
+    "name": "concave/bkash",
+    "description": "Laravel Bkash Payment system intrigation",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "ConcaveIT",
+            "email": "concaveit@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Concave\\Bkash\\": "src/"
+        }
+    }
+}
