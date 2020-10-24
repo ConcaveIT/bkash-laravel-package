@@ -15,5 +15,12 @@
         "psr-4": {
             "Concave\\Bkash\\": "src/"
         }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Concave\\Bkash\\BkashServiceProvider"
+            ]
+        }
     }
 }
