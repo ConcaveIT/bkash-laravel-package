@@ -8,7 +8,8 @@
 <p>Step 02: Run Command <code>php artisan migrate</code></p>
 <p>Step 03: Run Command <code>php artisan vendor:publish --tag=public --force</code></p>
 <p>Step 04: Open public/concave/config.json and fill with your credentials!</code></p>
-<p>Step 05: Add Payment Button <code> With Mendatory attributes,  data-payment-amount="200" data-invoice-number="Invoice199" data-payment-intent="sale" id="bKash_button"</code><p>
+<p>Step 05: Add Payment Button with mandatory attributes, <code> data-payment-amount="" data-invoice-number="" data-payment-intent="" id="bKash_button"</code><p>
+<p>Hence data-payment-amount="" is your payment amount like data-payment-amount="200"  , data-invoice-number="" is your unique invoice number like data-invoice-number="EXT00354KHF" and data-payment-intent="" is intent like as data-payment-intent="sale"</p>
 
 <p>Add Following code in footer</p>
 <code><script src="https://code.jquery.com/jquery-1.8.3.min.js"  integrity="sha256-YcbK69I5IXQftf/mYD8WY0/KmEDCv1asggHpJk1trM8=" crossorigin="anonymous"></script> </code><br><br>
