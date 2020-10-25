@@ -118,6 +118,10 @@ class PaymentController extends Controller{
                 $data['created_at'] = $mysqlFormatedDateTime;
                 $data['updated_at'] = $mysqlFormatedDateTime;
                 DB::table('concave_bkash_response')->insert($data);
+
+                if($resultdatax->transactionStatus == 'Completed'){
+                    //Do update Your Order Status
+                }
             }
         }
 

@@ -14,7 +14,7 @@ class BkashServiceProvider extends ServiceProvider{
     }
 
     public function register(){
-        
+        //Nothing to do
     }
 
 }
