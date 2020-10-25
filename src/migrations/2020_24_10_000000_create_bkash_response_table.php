@@ -12,12 +12,13 @@ class CreateBkashResponseTable extends Migration
      */
     public function up()
     {
-        Schema::create('bkash_response', function (Blueprint $table) {
+        Schema::create('concave_bkash_response', function (Blueprint $table) {
             $table->id();
-            $table->string('product_id');
             $table->string('currency');
             $table->decimal('amount', 12, 2);
-            $table->string('invoice');
+            $table->string('invoice_number');
+            $table->string('intent');
+            $table->string('payment_id');
             $table->string('trxID')->nullable();
             $table->string('status');
             $table->timestamps();
@@ -31,6 +32,7 @@ class CreateBkashResponseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bkash_response');
+        Schema::dropIfExists('concave_bkash_response');
     }
 }
+

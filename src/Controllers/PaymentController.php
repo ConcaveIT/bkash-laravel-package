@@ -16,7 +16,7 @@ class PaymentController extends Controller{
         $array = $this->_get_config_file();
         $array['token'] = $idtoken;
         $newJsonString = json_encode($array);
-        File::put(storage_path() . '/app/public/config.json', $newJsonString);
+        File::put(public_path('concave/config.json'), $newJsonString);
         echo $idtoken;
     }
 
@@ -47,7 +47,7 @@ class PaymentController extends Controller{
     }
 
     protected function _get_config_file(){
-        $path = storage_path() . "/app/public/config.json";
+        $path = public_path('concave/config.json');
         return json_decode(file_get_contents($path), true);
     }
 
@@ -56,7 +56,7 @@ class PaymentController extends Controller{
         $array = $this->_get_config_file();
         $amount = $_GET['amount'];
         $invoice = $_GET['invoice']; // must be unique
-        $intent = "sale";
+        $intent = $_GET['intent'];
         $proxy = $array["proxy"];
         $createpaybody = array('amount' => $amount, 'currency' => 'BDT', 'merchantInvoiceNumber' => $invoice, 'intent' => $intent);
         $url = curl_init($array["createURL"]);
@@ -74,7 +74,6 @@ class PaymentController extends Controller{
         curl_setopt($url, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($url, CURLOPT_POSTFIELDS, $createpaybodyx);
         curl_setopt($url, CURLOPT_FOLLOWLOCATION, 1);
-        //curl_setopt($url, CURLOPT_PROXY, $proxy);
 
         $resultdata = curl_exec($url);
         curl_close($url);
@@ -99,20 +98,28 @@ class PaymentController extends Controller{
         $resultdatax = curl_exec($url);
         curl_close($url);
         $this->_updateOrderStatus($resultdatax);
-
         echo $resultdatax;
     }
 
-    protected function _updateOrderStatus($resultdatax)
-    {
+    protected function _updateOrderStatus($resultdatax){
         $resultdatax = json_decode($resultdatax);
-        if ($resultdatax && $resultdatax->paymentID != null && $resultdatax->transactionStatus == 'Completed') {
-            
-            DB::table('bkash_response')->where([
-                'invoice' => $resultdatax->merchantInvoiceNumber
-            ])->update([
-                'status' => 'Processing', 'trxID' => $resultdatax->trxID
-            ]);
+        if(isset($resultdatax->paymentID)){
+            if ($resultdatax && $resultdatax->paymentID != null) {
+                $data['amount'] =  $resultdatax->amount;
+                $data['currency'] =  $resultdatax->currency;
+                $data['invoice_number'] =  $resultdatax->merchantInvoiceNumber;
+                $data['intent'] =  $resultdatax->intent;
+                $data['payment_id'] =  $resultdatax->paymentID;
+                $data['trxID'] =  $resultdatax->trxID;
+                $data['status'] =  $resultdatax->transactionStatus;
+                $timestamp = substr($resultdatax->updateTime,0,19);   
+                $dateTime = date_format(date_create($timestamp),'Y-m-d H:i:s');
+                $mysqlFormatedDateTime =  date('Y-m-d H:i:s', strtotime($dateTime)+21600); //DateTime response was in GMT+0000 that's why we add 6 hours 
+                $data['created_at'] = $mysqlFormatedDateTime;
+                $data['updated_at'] = $mysqlFormatedDateTime;
+                DB::table('concave_bkash_response')->insert($data);
+            }
         }
+
     }
 }
