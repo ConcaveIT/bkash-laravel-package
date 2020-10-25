@@ -16,4 +16,3 @@
 <code> <script id="myScript"  src="https://scripts.sandbox.bka.sh/versions/1.2.0-beta/checkout/bKash-checkout-sandbox.js"></script></code><br><br>
 <code> <script> var base_url = "{{ url('/') }}"; var csrf = "{{ csrf_token() }}"; </script></code><br><br>
 <code> <script src="{{ asset('concave/bkash.js') }}"></script></code><br><br>
-
